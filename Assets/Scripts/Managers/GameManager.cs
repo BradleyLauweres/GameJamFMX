@@ -31,16 +31,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
-            var player = GameObject.FindGameObjectWithTag("Player");
             bool IsActive = !EscapeScreen.activeSelf;
-
             EscapeScreen.SetActive(IsActive);   
         }
     }
 
-    public void QuitGame()
-    {
-        SceneManager.LoadSceneAsync(0);
-    }
+   
 
 }

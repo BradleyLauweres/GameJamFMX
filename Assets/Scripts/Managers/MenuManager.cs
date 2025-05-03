@@ -125,7 +125,7 @@ public class MenuManager : MonoBehaviour
     public void QuitGame()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+        SceneManager.LoadSceneAsync(0);
 #else
             Application.Quit();
 #endif
