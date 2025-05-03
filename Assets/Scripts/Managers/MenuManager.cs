@@ -6,9 +6,7 @@ public class MenuManager : MonoBehaviour
 {
     [Header("Menu References")]
     [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject settingsMenu;
-    [SerializeField] private GameObject gameOverMenu;
 
     [Header("Settings")]
     [SerializeField] private bool pauseGameWhenMenuOpen = true;
@@ -21,39 +19,21 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         RegisterMenus();
     }
 
     private void Start()
     {
-        CloseAllMenus();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePauseMenu();
-        }
     }
 
     private void RegisterMenus()
     {
         if (mainMenu != null) menus.Add("Main", mainMenu);
-        if (pauseMenu != null) menus.Add("Pause", pauseMenu);
         if (settingsMenu != null) menus.Add("Settings", settingsMenu);
-        if (gameOverMenu != null) menus.Add("GameOver", gameOverMenu);
 
     }
 
@@ -90,18 +70,6 @@ public class MenuManager : MonoBehaviour
         if (isGamePaused)
         {
             ResumeGame();
-        }
-    }
-
-    public void TogglePauseMenu()
-    {
-        if (currentActiveMenu == pauseMenu)
-        {
-            CloseAllMenus();
-        }
-        else
-        {
-            OpenMenu("Pause");
         }
     }
 
@@ -175,4 +143,6 @@ public class MenuManager : MonoBehaviour
             Debug.LogWarning($"Menu '{menuName}' already exists!");
         }
     }
+
+    
 }
