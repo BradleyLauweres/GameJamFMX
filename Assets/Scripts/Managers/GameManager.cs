@@ -23,8 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject PlayerObject;
     [SerializeField] private GameObject SpawnPoint;
 
-    public static GameState state = GameState.Playing;
-    public static CursorLockMode lockMode = CursorLockMode.Locked;
+    public GameState state = GameState.Playing;
+    public CursorLockMode lockMode = CursorLockMode.Locked;
 
     public bool IsInRange = false;
 
@@ -32,16 +32,14 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        Instantiate(PlayerObject , SpawnPoint.transform.position, transform.rotation);
     }
 
     private void Start()
     {
-        Application.targetFrameRate = Settings.FPSLimit;
     }
 
     private void Update()
-    {
+    {   
         if (state == GameState.Playing)
             Cursor.lockState = CursorLockMode.Locked;
         else

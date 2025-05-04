@@ -11,6 +11,8 @@ TagManager:
   - Useable
   - InteractionPoint
   - interactText
+  - Postnote
+  - Door
   layers:
   - Default
   - TransparentFX

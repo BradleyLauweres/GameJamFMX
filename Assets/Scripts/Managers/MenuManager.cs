@@ -9,9 +9,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject escapeMenu;
 
-    [Header("Settings")]
-    [SerializeField] private bool pauseGameWhenMenuOpen = true;
-
     private Dictionary<string, GameObject> menus = new Dictionary<string, GameObject>();
     private GameObject currentActiveMenu;
 
@@ -126,16 +123,16 @@ public class MenuManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
 
-            if (GameManager.state == GameState.Playing)
+            if (GameManager.Instance.state == GameState.Playing)
             {
                 Cursor.lockState = CursorLockMode.None;
                 escapeMenu.SetActive(true);
-                GameManager.state = GameState.Paused;
+                GameManager.Instance.state = GameState.Paused;
             }
             else
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                GameManager.state = GameState.Playing;
+                GameManager.Instance.state = GameState.Playing;
                 escapeMenu.SetActive(false);
 
             }

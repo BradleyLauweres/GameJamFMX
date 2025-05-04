@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class InteractManager : MonoBehaviour
@@ -22,11 +20,9 @@ public class InteractManager : MonoBehaviour
     private Vector3 _currentPosition;
     private Vector3 _oldPosition;
 
-    private string _ItemToInteractWith;
+    public string _ItemToInteractWith;
 
-    [Header("Computer Controls")]
-    [SerializeField] private float mouseSensitivity = 100f;
-    private float xRotation = 0f;
+    private bool _isEndGameScreen = false;
 
 
     private static InteractManager _instance;
@@ -67,27 +63,27 @@ public class InteractManager : MonoBehaviour
         if (_animCamPos == null)
             _animCamPos = _playerCam.transform;
 
-        if(GameManager.state == GameState.Interacting)
+        if(GameManager.Instance.state == GameState.Interacting)
         {
             Cursor.lockState = CursorLockMode.None;
-
-            if (_ItemToInteractWith == "Pc")
-            {
-                _animationPcCam.gameObject.SetActive(true);
-                _playerCam.SetActive(false);
-                MoveCamera(targetPcPosition.position, _animationPcCam.transform.position , _animationPcCam);
-            }
-
-            if(_ItemToInteractWith == "Board")
-            {
-                _animationWhiteBoardCam.gameObject.SetActive(true);
-                _playerCam.SetActive(false);
-                MoveCamera(targetBoardPosition.position, _animationWhiteBoardCam.transform.position, _animationWhiteBoardCam);
-            }
-           
         }
 
-        StopInteracting();
+        if (_isEndGameScreen)
+        {
+            _pc.ToggleEndGameText(_isEndGameScreen);
+
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                GameService.Instance.CheckEndResult();
+                _isEndGameScreen = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                _pc.ToggleEndGameText(false);
+                _isEndGameScreen = false;
+            }
+        }
 
     }
 
@@ -97,21 +93,34 @@ public class InteractManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _ItemToInteractWith = gameObject.name;
-            GameManager.state = GameState.Interacting;
+            if (GameManager.Instance.state == GameState.Interacting)
+            {
+                _playerCam.SetActive(true);
+                _animationPcCam.gameObject.SetActive(false);
+                _animationWhiteBoardCam.gameObject.SetActive(false);
+                GameManager.Instance.state = GameState.Playing;
+            }
+            else
+            {
+                _ItemToInteractWith = gameObject.name;
+                GameManager.Instance.state = GameState.Interacting;
+
+                if (_ItemToInteractWith == "Pc")
+                {
+                    _animationPcCam.gameObject.SetActive(true);
+                    _playerCam.SetActive(false);
+                    MoveCamera(targetPcPosition.position, _animationPcCam.transform.position, _animationPcCam);
+                }
+
+                if (_ItemToInteractWith == "Board")
+                {
+                    _animationWhiteBoardCam.gameObject.SetActive(true);
+                    _playerCam.SetActive(false);
+                    MoveCamera(targetBoardPosition.position, _animationWhiteBoardCam.transform.position, _animationWhiteBoardCam);
+                }
+            }
         }
 
-    }
-
-    public void StopInteracting()
-    {
-        if (GameManager.state == GameState.Interacting && Input.GetKeyDown(KeyCode.E))
-        {
-            _playerCam.SetActive(true);
-            _animationPcCam.gameObject.SetActive(false);
-            _animationWhiteBoardCam.gameObject.SetActive(false);
-            GameManager.state = GameState.Playing;
-        }
     }
 
     void MoveCamera(Vector3 from, Vector3 to , Camera cam)
@@ -119,6 +128,15 @@ public class InteractManager : MonoBehaviour
         float step = speed * Time.deltaTime;
         _currentPosition = Vector3.Lerp(from, to, step);
         cam.transform.position = _currentPosition;
+    }
+
+    public void DoorLogic()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _isEndGameScreen = true;
+        }
+       
     }
 
 }

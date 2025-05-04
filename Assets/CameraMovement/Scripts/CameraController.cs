@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
         if (_PlayerCamera == null)
             _PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera");
 
-        if(GameManager.state == GameState.Interacting)
+        if(GameManager.Instance.state == GameState.Interacting)
         {
             _camera.gameObject.SetActive(true);
             _PlayerCamera.SetActive(false);

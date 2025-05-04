@@ -27,7 +27,6 @@ public class Item : MonoBehaviour
     public bool IsPlayerClose(Transform playerPos, float maxDistance)
     {
         float distance = Vector3.Distance(transform.position, playerPos.transform.position);
-        Debug.Log(distance);
         return distance <= maxDistance;
 
     }

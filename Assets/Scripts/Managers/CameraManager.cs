@@ -21,30 +21,35 @@ public class CameraManager : MonoBehaviour
 
     private void SendObject()
     {
-        if(GameManager.state == GameState.Playing)
+        if(GameManager.Instance.state == GameState.Playing)
         {
 
             if(Physics.Raycast(transform.position, transform.forward, out hit))
             {
                 GameObject hitObject = hit.collider.gameObject;
 
-                if(hitObject.tag == "Pickable" && hitObject.GetComponent<Item>().IsInRange)
+                if(hitObject.tag == "Door" && hitObject.GetComponent<Item>().IsInRange)
+                {
+                    InteractManager.Instance.DoorLogic();
+                }
+
+                if (hitObject.tag == "Pickable" && hitObject.GetComponent<Item>().IsInRange)
                 {
                     PickupManager.Instance.PickUp(hitObject);
                 }
-                else
-                {
-
-                }
-
 
                 if (hitObject.tag == "Useable" && hitObject.GetComponent<Item>().IsInRange)
                 {
+                    InteractManager.Instance._ItemToInteractWith = hitObject.name;
                     InteractManager.Instance.Interact(hitObject);
                 }
                 else
                 {
-                    InteractManager.Instance._pc.ToggleInteractableUI(false);
+                    if (InteractManager.Instance._pc != null)
+                    {
+                        InteractManager.Instance._pc.ToggleInteractableUI(false);
+                    }
+                   
                 }
             }
 

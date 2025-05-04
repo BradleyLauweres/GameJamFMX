@@ -14,12 +14,12 @@ public class PlayerController : MonoBehaviour
     [Header("Camera Settings")]
     [SerializeField] private float mouseSensitivity = 100f;
     [SerializeField] private Transform playerCamera;
-    [SerializeField] private bool lockCursor = true;
 
     [Header("UI")]
     [SerializeField] private GameObject UI;
     [SerializeField] private GameObject InteractableTextPlaceholder;
     [SerializeField] private GameObject PickableTextPlaceholder;
+    [SerializeField] private GameObject EndGameTextPlaceholder;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -38,15 +38,15 @@ public class PlayerController : MonoBehaviour
                 playerCamera = mainCamera.transform;
         }
 
-        GameManager.lockMode = CursorLockMode.Locked;
+        GameManager.Instance.lockMode = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        if(GameManager.state == GameState.Playing)
+        if(GameManager.Instance.state == GameState.Playing)
         {
 
-            GameManager.lockMode = CursorLockMode.Locked;
+            GameManager.Instance.lockMode = CursorLockMode.Locked;
             UI.SetActive(true);
 
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
             ApplyGravity();
         }
-        else if (GameManager.state == GameState.Interacting)
+        else if (GameManager.Instance.state == GameState.Interacting)
         {
             UI.SetActive(false);
             ToggleInteractableUI(false);
@@ -127,5 +127,10 @@ public class PlayerController : MonoBehaviour
     public void TogglePickableUI(bool state)
     {
         PickableTextPlaceholder.SetActive(state);
+    }
+
+    public void ToggleEndGameText(bool state)
+    {
+        EndGameTextPlaceholder.SetActive(state);
     }
 }
