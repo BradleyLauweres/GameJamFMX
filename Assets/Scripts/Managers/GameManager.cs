@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject SpawnPoint;
     [SerializeField] private GameObject EscapeScreen;
 
+    public bool IsInRange = false;
+
 
     private void Awake()
     {

@@ -6,31 +6,50 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    [SerializeField] Camera _camera;
+    [SerializeField] private Camera _camera;
+    [SerializeField] private KeyCode _key = KeyCode.V;
      
     public Transform targetPosition; 
     public float speed = 5f; 
-    private Vector3 _currentPosition; 
+    private Vector3 _currentPosition;
+    private Vector3 _oldPosition;
 
     bool _isInteracting = false;
 
+
     void Start()
     {
-        _currentPosition = transform.position; 
+        _currentPosition = _camera.transform.position;
+        _oldPosition = _camera.transform.position;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.V))
         {
-            _isInteracting = true;
+            _isInteracting = !_isInteracting;
+
+            
         }
 
         if (_isInteracting)
         {
-            float step = speed * Time.deltaTime;
-            _currentPosition = Vector3.Lerp(_camera.transform.position, targetPosition.position, step);
-            _camera.transform.position = _currentPosition;
+            MoveCamera(_camera.transform.position, targetPosition.position);
         }
+        else
+        {
+            if (_camera.transform.position != _oldPosition)
+                MoveCamera(_oldPosition, _camera.transform.position);
+        }
+
+
+
+    }
+
+    void MoveCamera(Vector3 from, Vector3 to)
+    {
+        float step = speed * Time.deltaTime;
+        _currentPosition = Vector3.Lerp(from, to, step);
+        _camera.transform.position = _currentPosition;
     }
 }

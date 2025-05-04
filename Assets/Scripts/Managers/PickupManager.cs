@@ -7,41 +7,47 @@ using UnityEngine;
 public class PickupManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] Items;
-    [SerializeField] private GameObject UIText;
+    private GameObject _player;
 
-
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        Debug.Log(other.name);
-        UIText.SetActive(true);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Debug.Log(other.name);
-        UIText.SetActive(false);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (Input.GetKey(KeyCode.E))
+        if(_player == null)
         {
-            if (other.GetComponent<Item>().Action == ActionEnum.Pickable)
+            _player = GameObject.FindGameObjectWithTag("Player");
+
+            GameObject itemsParent = GameObject.Find("Items");
+
+            if (itemsParent != null)
             {
-                PickUp(other);
+                int childCount = itemsParent.transform.childCount;
+                Items = new GameObject[childCount];
+
+                for (int i = 0; i < childCount; i++)
+                {
+                    Items[i] = itemsParent.transform.GetChild(i).gameObject;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Items GameObject not found in the scene.");
             }
         }
     }
 
-    private void PickUp(Collider other)
+    public void PickUp(GameObject other)
     {
+
+        if (other.name.Contains("(Clone)"))
+        {
+            other.name = other.name.Replace("(Clone)", "");
+        }
+
         var item = Items.FirstOrDefault(x => x.name == other.name);
         item.SetActive(true);
-        other.gameObject.SetActive(false);
-        UIText.SetActive(false);
+        Destroy(other);
     }
 
-    private void Interact()
+    public void Interact()
     {
         Debug.Log("Interact");
     }
