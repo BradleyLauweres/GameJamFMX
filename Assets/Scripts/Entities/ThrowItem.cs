@@ -40,6 +40,8 @@ public class ThrowItem : MonoBehaviour
         if (rb == null) rb = thrownItem.AddComponent<Rigidbody>();
         if(collider == null) collider = thrownItem.AddComponent<BoxCollider>();
 
+        thrownItem.AddComponent<Item>();
+
         rb.AddForce(throwPoint.forward * throwForce);
 
         itemPrefab.SetActive(false);

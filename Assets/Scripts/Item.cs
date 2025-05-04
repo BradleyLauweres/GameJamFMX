@@ -1,25 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Item : MonoBehaviour
 {
     private Transform _playerPos;
-    private GameManager gm;
+
+    public bool IsInRange;
 
     void Update()
     {
-        gm = GameObject.Find("Main").GetComponent<GameManager>();
         _playerPos = GameObject.FindGameObjectWithTag("Player").transform;
 
         if (IsPlayerClose(_playerPos, 2f))
         {
-            gm.IsInRange = true;
-            Debug.Log("Player is close to the item!");
+            IsInRange = true;
         }
         else
         {
-            gm.IsInRange = false;
+            IsInRange = false;
         }
     }
 

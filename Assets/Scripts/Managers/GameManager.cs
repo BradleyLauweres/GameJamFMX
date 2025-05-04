@@ -6,6 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if(_instance == null)
+            {
+                Debug.Log("GameManager is NULL");
+            }
+            return _instance;
+        }
+    }
+
     [SerializeField] private GameObject PlayerObject;
     [SerializeField] private GameObject SpawnPoint;
     [SerializeField] private GameObject EscapeScreen;
@@ -15,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _instance = this;
         Instantiate(PlayerObject , SpawnPoint.transform.position, transform.rotation);
     }
 

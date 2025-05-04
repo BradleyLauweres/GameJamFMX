@@ -49,6 +49,6 @@ public class PickupManager : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interact");
+        
     }
 }

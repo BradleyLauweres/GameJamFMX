@@ -7,6 +7,9 @@ TagManager:
   - Spawnpoint
   - Item
   - text
+  - Pickable
+  - Useable
+  - InteractionPoint
   layers:
   - Default
   - TransparentFX
@@ -15,8 +18,8 @@ TagManager:
   - Water
   - UI
   - Spawnpoint
-  - Item
-  - 
+  - Pickable
+  - Useable
   - 
   - 
   - 
