@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -9,15 +10,19 @@ public class InteractManager : MonoBehaviour
     public PlayerController _pc;
 
     [Header("Camera Moving Interaction")]
-    [SerializeField] Camera _animationCam;
+    [SerializeField] Camera _animationPcCam;
+    [SerializeField] Camera _animationWhiteBoardCam;
     [SerializeField] GameObject _playerCam;
 
     [SerializeField] private Transform _animCamPos;
-    [SerializeField] private Transform targetPosition;
+    [SerializeField] private Transform targetPcPosition;
+    [SerializeField] private Transform targetBoardPosition;
     [SerializeField] public float speed = 5f;
 
     private Vector3 _currentPosition;
     private Vector3 _oldPosition;
+
+    private string _ItemToInteractWith;
 
     [Header("Computer Controls")]
     [SerializeField] private float mouseSensitivity = 100f;
@@ -40,8 +45,8 @@ public class InteractManager : MonoBehaviour
 
     void Start()
     {
-        _currentPosition = _animationCam.transform.position;
-        _oldPosition = _animationCam.transform.position;
+        _currentPosition = _animationPcCam.transform.position;
+        _oldPosition = _animationPcCam.transform.position;
     }
 
     private void Awake()
@@ -65,6 +70,21 @@ public class InteractManager : MonoBehaviour
         if(GameManager.state == GameState.Interacting)
         {
             Cursor.lockState = CursorLockMode.None;
+
+            if (_ItemToInteractWith == "Pc")
+            {
+                _animationPcCam.gameObject.SetActive(true);
+                _playerCam.SetActive(false);
+                MoveCamera(targetPcPosition.position, _animationPcCam.transform.position , _animationPcCam);
+            }
+
+            if(_ItemToInteractWith == "Board")
+            {
+                _animationWhiteBoardCam.gameObject.SetActive(true);
+                _playerCam.SetActive(false);
+                MoveCamera(targetBoardPosition.position, _animationWhiteBoardCam.transform.position, _animationWhiteBoardCam);
+            }
+           
         }
 
         StopInteracting();
@@ -77,14 +97,10 @@ public class InteractManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
+            _ItemToInteractWith = gameObject.name;
             GameManager.state = GameState.Interacting;
-
-            _animationCam.gameObject.SetActive(true);
-            _playerCam.SetActive(false);
-
-            MoveCamera(targetPosition.position, _animationCam.transform.position);
-
         }
+
     }
 
     public void StopInteracting()
@@ -92,16 +108,17 @@ public class InteractManager : MonoBehaviour
         if (GameManager.state == GameState.Interacting && Input.GetKeyDown(KeyCode.E))
         {
             _playerCam.SetActive(true);
-            _animationCam.gameObject.SetActive(false);
+            _animationPcCam.gameObject.SetActive(false);
+            _animationWhiteBoardCam.gameObject.SetActive(false);
             GameManager.state = GameState.Playing;
         }
     }
 
-    void MoveCamera(Vector3 from, Vector3 to)
+    void MoveCamera(Vector3 from, Vector3 to , Camera cam)
     {
         float step = speed * Time.deltaTime;
         _currentPosition = Vector3.Lerp(from, to, step);
-        _animationCam.transform.position = _currentPosition;
+        cam.transform.position = _currentPosition;
     }
 
 }
