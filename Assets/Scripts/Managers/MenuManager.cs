@@ -7,13 +7,13 @@ public class MenuManager : MonoBehaviour
     [Header("Menu References")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject escapeMenu;
 
     [Header("Settings")]
     [SerializeField] private bool pauseGameWhenMenuOpen = true;
 
     private Dictionary<string, GameObject> menus = new Dictionary<string, GameObject>();
     private GameObject currentActiveMenu;
-    private bool isGamePaused = false;
 
     public static MenuManager Instance { get; private set; }
 
@@ -28,6 +28,7 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
+        OpenEscapeMenu();
     }
 
     private void RegisterMenus()
@@ -53,10 +54,6 @@ public class MenuManager : MonoBehaviour
         menus[menuName].SetActive(true);
         currentActiveMenu = menus[menuName];
 
-        if (pauseGameWhenMenuOpen && menuName != "Main")
-        {
-            PauseGame();
-        }
     }
 
     public void CloseAllMenus()
@@ -67,24 +64,18 @@ public class MenuManager : MonoBehaviour
         }
         currentActiveMenu = null;
 
-        if (isGamePaused)
-        {
-            ResumeGame();
-        }
+
     }
 
     public void LoadScene(string sceneName)
     {
         Time.timeScale = 1f;
-        isGamePaused = false;
-
         SceneManager.LoadScene(sceneName);
     }
 
     public void LoadScene(int buildIndex)
     {
         Time.timeScale = 1f;
-        isGamePaused = false;
 
         SceneManager.LoadScene(buildIndex);
     }
@@ -92,8 +83,6 @@ public class MenuManager : MonoBehaviour
     public void ReloadCurrentScene()
     {
         Time.timeScale = 1f;
-        isGamePaused = false;
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -108,18 +97,6 @@ public class MenuManager : MonoBehaviour
         {
             Debug.LogWarning("No next scene available!");
         }
-    }
-
-    public void PauseGame()
-    {
-        Time.timeScale = 0f;
-        isGamePaused = true;
-    }
-
-    public void ResumeGame()
-    {
-        Time.timeScale = 1f;
-        isGamePaused = false;
     }
 
     public void QuitGame()
@@ -144,5 +121,27 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    
+    private void OpenEscapeMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            if (GameManager.state == GameState.Playing)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                escapeMenu.SetActive(true);
+                GameManager.state = GameState.Paused;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                GameManager.state = GameState.Playing;
+                escapeMenu.SetActive(false);
+
+            }
+
+        }
+    }
+
+
 }

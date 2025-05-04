@@ -16,6 +16,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform playerCamera;
     [SerializeField] private bool lockCursor = true;
 
+    [Header("UI")]
+    [SerializeField] private GameObject UI;
+    [SerializeField] private GameObject InteractableTextPlaceholder;
+    [SerializeField] private GameObject PickableTextPlaceholder;
+
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -33,27 +38,40 @@ public class PlayerController : MonoBehaviour
                 playerCamera = mainCamera.transform;
         }
 
-        if (lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        GameManager.lockMode = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if (isGrounded && velocity.y < 0)
+        if(GameManager.state == GameState.Playing)
         {
-            velocity.y = -2f;
+
+            GameManager.lockMode = CursorLockMode.Locked;
+            UI.SetActive(true);
+
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+            if (isGrounded && velocity.y < 0)
+            {
+                velocity.y = -2f;
+            }
+
+            HandleCameraRotation();
+            HandleMovement();
+            HandleJumping();
+
+            ApplyGravity();
         }
-
-        HandleCameraRotation();
-        HandleMovement();
-        HandleJumping();
-
-        ApplyGravity();
+        else if (GameManager.state == GameState.Interacting)
+        {
+            UI.SetActive(false);
+            ToggleInteractableUI(false);
+            TogglePickableUI(false);
+        }
+        else
+        {
+            UI.SetActive(false);
+        }        
     }
 
     void HandleCameraRotation()
@@ -99,5 +117,15 @@ public class PlayerController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    public void ToggleInteractableUI(bool state)
+    {
+        InteractableTextPlaceholder.SetActive(state);
+    }
+
+    public void TogglePickableUI(bool state)
+    {
+        PickableTextPlaceholder.SetActive(state);
     }
 }

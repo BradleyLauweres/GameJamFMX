@@ -9,6 +9,26 @@ public class PickupManager : MonoBehaviour
     [SerializeField] private GameObject[] Items;
     private GameObject _player;
 
+    private static PickupManager _instance;
+
+    public static PickupManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                Debug.Log("PickupManager is NULL");
+            }
+            return _instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+    }
+
     private void Update()
     {
         if(_player == null)
@@ -36,19 +56,19 @@ public class PickupManager : MonoBehaviour
 
     public void PickUp(GameObject other)
     {
-
-        if (other.name.Contains("(Clone)"))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            other.name = other.name.Replace("(Clone)", "");
+            if (other.name.Contains("(Clone)"))
+            {
+                other.name = other.name.Replace("(Clone)", "");
+            }
+
+            var item = Items.FirstOrDefault(x => x.name == other.name);
+            item.SetActive(true);
+
+            Destroy(other);
         }
 
-        var item = Items.FirstOrDefault(x => x.name == other.name);
-        item.SetActive(true);
-        Destroy(other);
     }
 
-    public void Interact()
-    {
-        
-    }
 }

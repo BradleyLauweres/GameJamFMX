@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 {
 
     [SerializeField] private Camera _camera;
-    [SerializeField] private KeyCode _key = KeyCode.V;
+    private GameObject _PlayerCamera;
      
     public Transform targetPosition; 
     public float speed = 5f; 
@@ -25,24 +25,26 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
+        if (_PlayerCamera == null)
+            _PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera");
+
+        if(GameManager.state == GameState.Interacting)
         {
+            _camera.gameObject.SetActive(true);
+            _PlayerCamera.SetActive(false);
             _isInteracting = !_isInteracting;
+            MoveCamera(_camera.transform.position,targetPosition.position);
 
-            
-        }
-
-        if (_isInteracting)
-        {
-            MoveCamera(_camera.transform.position, targetPosition.position);
         }
         else
         {
-            if (_camera.transform.position != _oldPosition)
-                MoveCamera(_oldPosition, _camera.transform.position);
+
+            MoveCamera(_oldPosition, _camera.transform.position);
+            _camera.gameObject.SetActive(false);
+            _PlayerCamera.SetActive(true);
+
+
         }
-
-
 
     }
 

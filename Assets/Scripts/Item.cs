@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
     {
         _playerPos = GameObject.FindGameObjectWithTag("Player").transform;
 
-        if (IsPlayerClose(_playerPos, 2f))
+        if (IsPlayerClose(_playerPos, 1.5f))
         {
             IsInRange = true;
         }

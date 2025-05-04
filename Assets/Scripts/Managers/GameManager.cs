@@ -22,7 +22,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject PlayerObject;
     [SerializeField] private GameObject SpawnPoint;
-    [SerializeField] private GameObject EscapeScreen;
+
+    public static GameState state = GameState.Playing;
+    public static CursorLockMode lockMode = CursorLockMode.Locked;
 
     public bool IsInRange = false;
 
@@ -40,18 +42,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        OpenEscapeMenu();
+        if (state == GameState.Playing)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None;
     }
 
-    private void OpenEscapeMenu()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            bool IsActive = !EscapeScreen.activeSelf;
-            EscapeScreen.SetActive(IsActive);   
-        }
-    }
+   
 
    
 

@@ -612,7 +612,11 @@ MonoBehaviour:
     m_Bits: 8
   mouseSensitivity: 2
   playerCamera: {fileID: 1457628057635693487}
+  interactCamera: {fileID: 0}
   lockCursor: 1
+  UI: {fileID: 6075123499003762332}
+  InteractableTextPlaceholder: {fileID: 5815646025167536419}
+  PickableTextPlaceholder: {fileID: 5836257492198354543}
 --- !u!114 &5858602046975961078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +664,7 @@ GameObject:
   - component: {fileID: 8576587049424112969}
   m_Layer: 0
   m_Name: Press E to interact
-  m_TagString: Untagged
+  m_TagString: interactText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1125,13 +1129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce18ec724e5982489e9801c620c49c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickableText: {fileID: 5836257492198354543}
-  InteractText: {fileID: 5815646025167536419}
-  _camera: {fileID: 4494913408745358385}
-  _mainCamera: {fileID: 7100112256212769300}
-  _key: 118
-  targetPosition: {fileID: 0}
-  speed: 5
 --- !u!1 &8575994176311881907
 GameObject:
   m_ObjectHideFlags: 0
