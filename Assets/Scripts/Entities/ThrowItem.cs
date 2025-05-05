@@ -33,17 +33,18 @@ public class ThrowItem : MonoBehaviour
 
     void Throw()
     {
-        GameObject thrownItem = Instantiate(itemPrefab, throwPoint.position, throwPoint.rotation);
-        Rigidbody rb = thrownItem.GetComponent<Rigidbody>();
-        Collider collider = thrownItem.GetComponent<Collider>();
+            GameObject thrownItem = Instantiate(itemPrefab, throwPoint.position, throwPoint.rotation);
+            Rigidbody rb = thrownItem.GetComponent<Rigidbody>();
+            Collider collider = thrownItem.GetComponent<Collider>();
+            thrownItem.GetComponent<DisplayInfo>().enabled = false;
 
-        if (rb == null) rb = thrownItem.AddComponent<Rigidbody>();
-        if(collider == null) collider = thrownItem.AddComponent<BoxCollider>();
+            if (rb == null) rb = thrownItem.AddComponent<Rigidbody>();
+            if (collider == null) collider = thrownItem.AddComponent<BoxCollider>();
 
-        thrownItem.AddComponent<Item>();
+            thrownItem.AddComponent<Item>();
 
-        rb.AddForce(throwPoint.forward * throwForce);
+            rb.AddForce(throwPoint.forward * throwForce);
 
-        itemPrefab.SetActive(false);
+            itemPrefab.SetActive(false);
     }
 }
