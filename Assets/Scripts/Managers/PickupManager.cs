@@ -8,6 +8,7 @@ public class PickupManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] Items;
     private GameObject _player;
+    public PlayerController _pc;
 
     private static PickupManager _instance;
 
@@ -34,6 +35,7 @@ public class PickupManager : MonoBehaviour
         if(_player == null)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
+            _pc = _player.GetComponent<PlayerController>();
 
             GameObject itemsParent = GameObject.Find("Items");
 
@@ -56,6 +58,8 @@ public class PickupManager : MonoBehaviour
 
     public void PickUp(GameObject other)
     {
+        _pc.TogglePickableUI(true);
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (other.name.Contains("(Clone)"))

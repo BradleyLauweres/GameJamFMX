@@ -37,6 +37,11 @@ public class CameraManager : MonoBehaviour
                 {
                     PickupManager.Instance.PickUp(hitObject);
                 }
+                else
+                {
+                    if (PickupManager.Instance._pc != null)
+                        PickupManager.Instance._pc.TogglePickableUI(false);
+                }
 
                 if (hitObject.tag == "Useable" && hitObject.GetComponent<Item>().IsInRange)
                 {
@@ -49,7 +54,7 @@ public class CameraManager : MonoBehaviour
                     {
                         InteractManager.Instance._pc.ToggleInteractableUI(false);
                     }
-                   
+
                 }
             }
 
