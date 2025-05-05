@@ -19,13 +19,18 @@ public class GameService : MonoBehaviour
     }
 
     private string killerAnswer = "Clara Blair";
-    private string murderWeaponAnswer = "Lily of the valley";
+    private string murderWeaponAnswer = "Belladonna";
+
+    [SerializeField] private GameObject EndGameScreenWin;
+    [SerializeField] private GameObject EndGameScreenLose;
 
     public GameObject SelectedMurderWeapon;
     public GameObject SelectedMurderer;
 
     public bool isMurderWeaponSelected;
     public bool isMurdererSelected;
+
+    public bool rightAnswersSelected = false;
 
     private void Awake()
     {
@@ -52,17 +57,30 @@ public class GameService : MonoBehaviour
 
     public void CheckEndResult()
     {
-
-
-        if(SelectedMurderer.GetComponent<Postnote>().name == killerAnswer)
+        if(SelectedMurderer == null || SelectedMurderWeapon == null)
         {
-
+            Cursor.lockState = CursorLockMode.None;
+            InteractManager.Instance._pc.ToggleEndGameText(false);
+            InteractManager.Instance._pc.ToggleEndGamePlaceholder(false);
+            EndGameScreenLose.SetActive(true);
+            return;
         }
 
-        if(SelectedMurderWeapon.GetComponent<Postnote>().name == murderWeaponAnswer)
+        if(SelectedMurderer.GetComponent<Postnote>()._name == killerAnswer && SelectedMurderWeapon.GetComponent<Postnote>()._name == murderWeaponAnswer)
         {
-
+            Cursor.lockState = CursorLockMode.None;
+            InteractManager.Instance._pc.ToggleEndGameText(false);
+            InteractManager.Instance._pc.ToggleEndGamePlaceholder(false);
+            EndGameScreenWin.SetActive(true);
         }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            InteractManager.Instance._pc.ToggleEndGameText(false);
+            InteractManager.Instance._pc.ToggleEndGamePlaceholder(false);
+            EndGameScreenLose.SetActive(true);
+        }
+
     }
 
 

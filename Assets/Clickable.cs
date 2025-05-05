@@ -12,7 +12,7 @@ public class Clickable : MonoBehaviour
 
     private Vector3 _currentPos;
     private bool _clicked;
-    private bool _onPlace;
+    private bool _onPlace = false;
 
     private PostnoteType _myType;
 
@@ -24,40 +24,46 @@ public class Clickable : MonoBehaviour
 
     private void OnMouseDown()
     {
-        _clicked = true;
-        _myType = GetComponent<Postnote>()._type;
-        Debug.Log("clicked on" + gameObject.name);
+        if(GameManager.Instance.state != GameState.Endgame)
+        {
+            _clicked = true;
+            _myType = GetComponent<Postnote>()._type;
+            Debug.Log("clicked on" + gameObject.name);
+        }
+        
     }
 
     private void Update()
     {
       
-        if (!GameService.Instance.isMurdererSelected && _myType == PostnoteType.Killer)
+        if (!GameService.Instance.isMurdererSelected && _myType == PostnoteType.Killer && !_onPlace)
         {
-            if (_clicked & !_onPlace)
+            if (_clicked )
             {
                 MoveTo();
             }
         }
-        else if(GameService.Instance.isMurdererSelected && _myType == PostnoteType.Killer)
+        
+        if(GameService.Instance.isMurdererSelected && _myType == PostnoteType.Killer && _onPlace)
         {
-            if (_clicked && _onPlace)
+            if (_clicked  )
             {
                 MoveFrom();
             }
         }
 
-        if (!GameService.Instance.isMurderWeaponSelected && _myType == PostnoteType.Weapon)
+        if (!GameService.Instance.isMurderWeaponSelected && _myType == PostnoteType.Weapon && !_onPlace)
         {
 
-            if (_clicked & !_onPlace)
+            if (_clicked )
             {
                 MoveTo();
             }
         }
-        else if(GameService.Instance.isMurderWeaponSelected && _myType == PostnoteType.Weapon)
+        
+        if(GameService.Instance.isMurderWeaponSelected && _myType == PostnoteType.Weapon && _onPlace)
         {
-            if (_clicked && _onPlace)
+            if (_clicked )
             {
                 MoveFrom();
             }
@@ -77,10 +83,12 @@ public class Clickable : MonoBehaviour
             if(gameObject.GetComponent<Postnote>()._type == Assets.Scripts.Enums.PostnoteType.Killer)
             {
                 GameService.Instance.SelectedMurderer = gameObject;
+                GameService.Instance.isMurdererSelected = true;
             }
             else
             {
                 GameService.Instance.SelectedMurderWeapon = gameObject;
+                GameService.Instance.isMurderWeaponSelected = true;
             }
                 _onPlace = true;
             _clicked = false;
@@ -97,10 +105,12 @@ public class Clickable : MonoBehaviour
             if (gameObject.GetComponent<Postnote>()._type == Assets.Scripts.Enums.PostnoteType.Killer)
             {
                 GameService.Instance.SelectedMurderer = null;
+                GameService.Instance.isMurdererSelected= false;
             }
             else
             {
                 GameService.Instance.SelectedMurderWeapon = null;
+                GameService.Instance.isMurderWeaponSelected = false;
             }
 
             _onPlace = false;

@@ -5,22 +5,38 @@ using UnityEngine;
 
 public class DisplayInfo : MonoBehaviour
 {
+    private static DisplayInfo _instance;
+
+    public static DisplayInfo Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                Debug.Log("DisplayInfo is NULL");
+            }
+            return _instance;
+        }
+    }
+
 
     [SerializeField] private GameObject UI;
     [SerializeField] private TMP_Text displayText;
     [SerializeField] private string Text;
     [SerializeField] GameObject CrossHair;
+    [SerializeField] GameObject ThisObject;
 
-    private bool isOpen = false;
+    public bool isOpen = false;
 
     private void Awake()
     {
+        _instance = this;
         displayText.text = Text;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0) && GameManager.Instance.state == GameState.Playing)
+        if(Input.GetKeyDown(KeyCode.Mouse0) && GameManager.Instance.state == GameState.Playing && ThisObject.activeSelf)
         {
             OpenTextDisplay();
         }

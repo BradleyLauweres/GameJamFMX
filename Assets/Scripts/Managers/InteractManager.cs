@@ -75,11 +75,13 @@ public class InteractManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 GameService.Instance.CheckEndResult();
+                GameManager.Instance.state = GameState.Endgame;
                 _isEndGameScreen = false;
             }
 
             if (Input.GetKeyDown(KeyCode.N))
             {
+                GameManager.Instance.state = GameState.Playing;
                 _pc.ToggleEndGameText(false);
                 _isEndGameScreen = false;
             }

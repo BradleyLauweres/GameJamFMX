@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum GameState 
 {
-    Playing,Paused,Interacting
+    Playing,Paused,Interacting,Endgame
 }

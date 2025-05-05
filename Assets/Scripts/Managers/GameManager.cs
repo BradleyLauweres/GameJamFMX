@@ -40,10 +40,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {   
-        if (state == GameState.Playing)
-            Cursor.lockState = CursorLockMode.Locked;
-        else
-            Cursor.lockState = CursorLockMode.None;
+        if(state != GameState.Endgame)
+        {
+            if (state == GameState.Playing)
+                Cursor.lockState = CursorLockMode.Locked;
+            else
+                Cursor.lockState = CursorLockMode.None;
+        }
+       
     }
 
    

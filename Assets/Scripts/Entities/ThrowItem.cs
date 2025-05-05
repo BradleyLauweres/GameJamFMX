@@ -15,7 +15,7 @@ public class ThrowItem : MonoBehaviour
     void Update()
     {
        
-        if (Input.GetKeyDown(KeyCode.Mouse1) )
+        if (Input.GetKeyDown(KeyCode.Mouse1) && !DisplayInfo.Instance.isOpen)
         {
             try
             {
