@@ -32,6 +32,11 @@ public class CameraManager : MonoBehaviour
                 {
                     InteractManager.Instance.DoorLogic();
                 }
+                else
+                {
+                    if (InteractManager.Instance._pc != null)
+                        InteractManager.Instance._pc.ToggleEndGamePlaceholder(false);
+                }
 
                 if (hitObject.tag == "Pickable" && hitObject.GetComponent<Item>().IsInRange)
                 {

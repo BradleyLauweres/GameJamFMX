@@ -25,7 +25,8 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        OpenEscapeMenu();
+        if(GameManager.Instance.state != GameState.Interacting)
+            OpenEscapeMenu();
     }
 
     private void RegisterMenus()

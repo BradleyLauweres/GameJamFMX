@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject InteractableTextPlaceholder;
     [SerializeField] private GameObject PickableTextPlaceholder;
     [SerializeField] private GameObject EndGameTextPlaceholder;
+    [SerializeField] private GameObject EndGameButtonInfo;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -132,6 +133,11 @@ public class PlayerController : MonoBehaviour
     public void ToggleEndGameText(bool state)
     {
         EndGameTextPlaceholder.SetActive(state);
+    }
+
+    public void ToggleEndGamePlaceholder(bool state)
+    {
+        EndGameButtonInfo.SetActive(state);
     }
 
 }

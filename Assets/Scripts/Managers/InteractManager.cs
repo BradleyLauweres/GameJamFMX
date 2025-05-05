@@ -132,8 +132,9 @@ public class InteractManager : MonoBehaviour
 
     public void DoorLogic()
     {
+        _pc.ToggleEndGamePlaceholder(true);
         if (Input.GetKeyDown(KeyCode.E))
-        {
+        {  
             _isEndGameScreen = true;
         }
        

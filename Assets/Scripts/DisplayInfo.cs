@@ -31,7 +31,7 @@ public class DisplayInfo : MonoBehaviour
     {
         isOpen = !isOpen;
         UI.SetActive(isOpen);
-        CrossHair.SetActive(isOpen);
+        CrossHair.SetActive(!isOpen);
         
     }
 }
