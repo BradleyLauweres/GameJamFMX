@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(PlayComputerSound());
+
         if (WinScreen != null)
             WinScreen.SetActive(false);
 
@@ -41,5 +43,11 @@ public class GameManager : MonoBehaviour
     public void Win()
     {
         WinScreen.SetActive (true);
+    }
+
+    IEnumerator PlayComputerSound()
+    {
+        yield return new WaitForSeconds(3f);
+        gameObject.GetComponent<AudioSource>().Play();
     }
 }

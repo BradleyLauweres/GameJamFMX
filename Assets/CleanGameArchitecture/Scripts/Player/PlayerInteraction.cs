@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    private static PlayerInteraction _instance;
+
+    public static PlayerInteraction Instance {  get { return _instance; } }
+
     [Header("Interaction Settings")]
     [SerializeField] private float interactionDistance = 3f;
     [SerializeField] private LayerMask interactionLayer;
@@ -22,11 +26,14 @@ public class PlayerInteraction : MonoBehaviour
 
     private Vector3 originalCameraPosition;
     private Quaternion originalCameraRotation;
-    private bool isInteracting = false;
+    public bool isInteracting = false;
     private CharacterController characterController;
 
     private void Start()
     {
+        if(_instance == null)
+            _instance = this;
+
         if (cameraTransform == null)
             cameraTransform = Camera.main.transform;
 
