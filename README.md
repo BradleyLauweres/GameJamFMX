@@ -16,10 +16,10 @@ Investigate suspects, analyze the crime board, and use the in-game tools to crac
 ## 🖼️ Screenshots
 
 ### 📺 In-Game Interface
-![In-Game Computer Interface](./c49b2d93-7202-4180-829e-fe33cf748365.png)
+![In-Game Computer Interface](https://github.com/BradleyLauweres/GameJamFMX/blob/main/Assets/Images/c49b2d93-7202-4180-829e-fe33cf748365.png)
 
 ### 🧠 Crime Board Clues
-![Crime Solving Board](./e59a196a-eab0-4a38-bad3-5cb0c4f0c36a.png)
+![Crime Solving Board](https://github.com/BradleyLauweres/GameJamFMX/blob/main/Assets/Images/e59a196a-eab0-4a38-bad3-5cb0c4f0c36a.png)
 
 ---
 
